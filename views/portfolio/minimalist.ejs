@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= portfolio.title %></title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    <% if (portfolio.colorScheme === 'dark') { %>
+    :root {
+      --primary-color: #333;
+      --bg-color: #121212;
+      --text-color: #f5f5f5;
+      --card-bg: #1e1e1e;
+      --border-color: #333;
+    }
+    <% } else if (portfolio.colorScheme === 'blue') { %>
+    :root {
+      --primary-color: #2980b9;
+      --bg-color: #f8f9fa;
+      --text-color: #2c3e50;
+      --card-bg: #fff;
+      --border-color: #e0e0e0;
+    }
+    <% } else if (portfolio.colorScheme === 'green') { %>
+    :root {
+      --primary-color: #27ae60;
+      --bg-color: #f8f9fa;
+      --text-color: #2c3e50;
+      --card-bg: #fff;
+      --border-color: #e0e0e0;
+    }
+    <% } else if (portfolio.colorScheme === 'purple') { %>
+    :root {
+      --primary-color: #8e44ad;
+      --bg-color: #f8f9fa;
+      --text-color: #2c3e50;
+      --card-bg: #fff;
+      --border-color: #e0e0e0;
+    }
+    <% } else if (portfolio.colorScheme === 'light') { %>
+    :root {
+      --primary-color: #333;
+      --bg-color: #fff;
+      --text-color: #333;
+      --card-bg: #f8f9fa;
+      --border-color: #eee;
+    }
+    <% } else { %>
+    :root {
+      --primary-color: #333;
+      --bg-color: #fff;
+      --text-color: #333;
+      --card-bg: #f8f9fa;
+      --border-color: #eee;
+    }
+    <% } %>
+    
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+    }
+    
+    .navbar {
+      <% if (portfolio.colorScheme === 'dark') { %>
+      background-color: #1e1e1e;
+      <% } else { %>
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      <% } %>
+    }
+    
+    .navbar-light .navbar-nav .nav-link {
+      color: var(--text-color);
+      font-weight: 500;
+      padding: 15px;
+    }
+    
+    .hero {
+      padding: 150px 0 100px;
+      background-color: var(--bg-color);
+    }
+    
+    .section-title {
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: var(--text-color);
+    }
+    
+    .card {
+      border: none;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background-color: var(--card-bg);
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .project-card {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .project-card img {
+      transition: transform 0.5s ease;
+    }
+    
+    .project-card:hover img {
+      transform: scale(1.03);
+    }
+    
+    .project-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      <% if (portfolio.colorScheme === 'dark') { %>
+      background: linear-gradient(to top, rgba(30, 30, 30, 0.9), transparent);
+      <% } else { %>
+      background: linear-gradient(to top, rgba(255, 255, 255, 0.9), transparent);
+      <% } %>
+      padding: 20px;
+      transition: opacity 0.3s ease;
+    }
+    
+    .project-title {
+      color: var(--text-color);
+      font-weight: 600;
+    }
+    
+    .social-icon {
+      font-size: 1.2rem;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      border-radius: 50%;
+      background-color: var(--card-bg);
+      color: var(--primary-color);
+      margin: 0 5px;
+      transition: all 0.3s ease;
+    }
+    
+    .social-icon:hover {
+      background-color: var(--primary-color);
+      color: #fff;
+    }
+    
+    .footer {
+      background-color: var(--card-bg);
+      padding: 40px 0;
+      margin-top: 80px;
+    }
+    
+    .btn-outline-dark {
+      border-width: 2px;
+      color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+    
+    .btn-dark {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#"><%= portfolio.title %></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#projects">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section id="home" class="hero">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8 mx-auto text-center">
+          <h1 class="display-4 section-title mb-4"><%= portfolio.title %></h1>
+          <p class="lead mb-4">Video Editor & Visual Storyteller</p>
+          <div class="mt-4">
+            <a href="#projects" class="btn btn-dark btn-lg px-4 me-2">View My Work</a>
+            <a href="#contact" class="btn btn-outline-dark btn-lg px-4">Get In Touch</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="py-5 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 mx-auto text-center">
+          <h2 class="section-title mb-4">About Me</h2>
+          <p class="lead">
+            <%= portfolio.about || 'Professional video editor with a passion for storytelling through visual media.' %>
+          </p>
+          
+          <% if (portfolio.skills && portfolio.skills.length > 0) { %>
+            <div class="mt-5">
+              <h3 class="h4 mb-4">My Skills</h3>
+              <div class="d-flex flex-wrap justify-content-center gap-2">
+                <% portfolio.skills.forEach(skill => { %>
+                  <span class="badge bg-light text-dark p-2 border"><%= skill %></span>
+                <% }) %>
+              </div>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="py-5 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center mb-5">
+          <h2 class="section-title">My Projects</h2>
+        </div>
+      </div>
+      
+      <div class="row">
+        <% if (projects.length === 0) { %>
+          <div class="col-md-12 text-center">
+            <p>No projects to display yet.</p>
+          </div>
+        <% } else { %>
+          <% projects.forEach(project => { %>
+            <div class="col-md-4 mb-4">
+              <div class="project-card card h-100">
+                <img src="<%= project.thumbnailUrl %>" class="card-img-top" alt="<%= project.title %>">
+                <div class="project-overlay">
+                  <h5 class="project-title"><%= project.title %></h5>
+                  <p class="text-muted"><%= project.category %></p>
+                  <button class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#projectModal<%= project._id %>">
+                    Watch Video
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Project Modal -->
+            <div class="modal fade" id="projectModal<%= project._id %>" tabindex="-1" aria-labelledby="projectModalLabel<%= project._id %>" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="projectModalLabel<%= project._id %>"><%= project.title %></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="ratio ratio-16x9 mb-3">
+                      <video controls>
+                        <source src="<%= project.videoUrl %>" type="video/mp4">
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                    <h6>Description:</h6>
+                    <p><%= project.description %></p>
+                    <% if (project.tags && project.tags.length > 0) { %>
+                      <div class="mt-3">
+                        <% project.tags.forEach(tag => { %>
+                          <span class="badge bg-light text-dark me-1 border"><%= tag %></span>
+                        <% }) %>
+                      </div>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="py-5 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 mx-auto text-center">
+          <h2 class="section-title mb-4">Get In Touch</h2>
+          
+          <div class="card p-4 mb-4">
+            <div class="card-body">
+              <% if (portfolio.contact.email) { %>
+                <p><i class="fas fa-envelope me-2"></i> <%= portfolio.contact.email %></p>
+              <% } %>
+              
+              <% if (portfolio.contact.phone) { %>
+                <p><i class="fas fa-phone me-2"></i> <%= portfolio.contact.phone %></p>
+              <% } %>
+              
+              <div class="social-links mt-4">
+                <% if (portfolio.social.twitter) { %>
+                  <a href="<%= portfolio.social.twitter %>" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <% } %>
+                
+                <% if (portfolio.social.instagram) { %>
+                  <a href="<%= portfolio.social.instagram %>" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <% } %>
+                
+                <% if (portfolio.social.linkedin) { %>
+                  <a href="<%= portfolio.social.linkedin %>" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                <% } %>
+                
+                <% if (portfolio.social.youtube) { %>
+                  <a href="<%= portfolio.social.youtube %>" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <p>&copy; <%= new Date().getFullYear() %> <%= portfolio.title %>. All Rights Reserved.</p>
+          <p class="text-muted small">Created with VideoFolio</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

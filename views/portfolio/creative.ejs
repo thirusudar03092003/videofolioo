@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= portfolio.title %></title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #ff5e3a;
+      --secondary-color: #2c3e50;
+      --bg-color: #f8f9fa;
+      --text-color: #333;
+      --card-bg: #fff;
+      --border-color: #eee;
+    }
+    
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+    }
+    
+    .navbar {
+      background-color: transparent;
+      transition: background-color 0.3s ease;
+      padding: 15px 0;
+    }
+    
+    .navbar.scrolled {
+      background-color: var(--secondary-color);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-brand, .nav-link {
+      color: #fff !important;
+      font-weight: 600;
+    }
+    
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--secondary-color), #1a252f);
+      color: white;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><polygon fill="rgba(255,94,58,0.2)" points="0,100 100,0 100,100"/></svg>');
+      background-size: cover;
+    }
+    
+    .section-title {
+      position: relative;
+      padding-bottom: 15px;
+      margin-bottom: 30px;
+      font-weight: 700;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background-color: var(--primary-color);
+    }
+    
+    .text-center .section-title::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .btn-custom {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-custom:hover {
+      background-color: #ff4425;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(255, 94, 58, 0.3);
+    }
+    
+    .card {
+      border: none;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 15px;
+    }
+    
+    .project-card img {
+      transition: transform 0.5s ease;
+    }
+    
+    .project-card:hover img {
+      transform: scale(1.05);
+    }
+    
+    .project-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba(44, 62, 80, 0.1), rgba(44, 62, 80, 0.9));
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 25px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .project-card:hover .project-overlay {
+      opacity: 1;
+    }
+    
+    .project-title {
+      color: white;
+      margin-bottom: 10px;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+    
+    .project-card:hover .project-title {
+      transform: translateY(0);
+    }
+    
+    .project-category {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9rem;
+      transform: translateY(20px);
+      transition: transform 0.3s ease 0.1s;
+    }
+    
+    .project-card:hover .project-category {
+      transform: translateY(0);
+    }
+    
+    .project-btn {
+      margin-top: 15px;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform 0.3s ease 0.2s, opacity 0.3s ease 0.2s;
+    }
+    
+    .project-card:hover .project-btn {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .social-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: white;
+      color: var(--secondary-color);
+      margin: 0 10px;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .social-icon:hover {
+      background-color: var(--primary-color);
+      color: white;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(255, 94, 58, 0.3);
+    }
+    
+    .section-padding {
+      padding: 100px 0;
+    }
+    
+    .bg-light-gray {
+      background-color: #f9f9f9;
+    }
+    
+    .footer {
+      background-color: var(--secondary-color);
+      padding: 60px 0 30px;
+      color: white;
+    }
+    
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 20px;
+      margin-top: 40px;
+    }
+    
+    @media (max-width: 767px) {
+      .section-padding {
+        padding: 60px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#"><%= portfolio.title %></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#projects">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section id="home" class="hero">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-8 mx-auto text-center">
+          <h1 class="display-3 fw-bold mb-4 animate__animated animate__fadeInUp"><%= portfolio.title %></h1>
+          <p class="lead mb-5 animate__animated animate__fadeInUp animate__delay-1s">Creative Video Editor & Visual Storyteller</p>
+          <div class="animate__animated animate__fadeInUp animate__delay-2s">
+            <a href="#projects" class="btn btn-custom btn-lg me-3">View My Work</a>
+            <a href="#contact" class="btn btn-outline-light btn-lg">Let's Talk</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section-padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <h2 class="section-title">About Me</h2>
+          <p class="lead mb-4">
+            <%= portfolio.about || 'Professional video editor with a passion for storytelling through visual media.' %>
+          </p>
+          
+          <% if (portfolio.skills && portfolio.skills.length > 0) { %>
+            <div class="mt-4">
+              <h3 class="h5 mb-3">My Skills</h3>
+              <div class="d-flex flex-wrap gap-2">
+                <% portfolio.skills.forEach(skill => { %>
+                  <span class="badge bg-light text-dark p-2"><%= skill %></span>
+                <% }) %>
+              </div>
+            </div>
+          <% } %>
+        </div>
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body p-4">
+              <h3 class="h4 mb-4">Why Work With Me?</h3>
+              <div class="d-flex mb-3">
+                <div class="me-3">
+                  <i class="fas fa-film fa-2x text-primary"></i>
+                </div>
+                <div>
+                  <h4 class="h5">Creative Vision</h4>
+                  <p>I bring unique perspectives and creative solutions to every project.</p>
+                </div>
+              </div>
+              <div class="d-flex mb-3">
+                <div class="me-3">
+                  <i class="fas fa-clock fa-2x text-primary"></i>
+                </div>
+                <div>
+                  <h4 class="h5">Timely Delivery</h4>
+                  <p>I understand the importance of deadlines and always deliver on time.</p>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="me-3">
+                  <i class="fas fa-star fa-2x text-primary"></i>
+                </div>
+                <div>
+                  <h4 class="h5">Quality Focus</h4>
+                  <p>I pay attention to details to ensure the highest quality in every project.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="section-padding bg-light-gray">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center mb-5">
+          <h2 class="section-title">My Projects</h2>
+        </div>
+      </div>
+      
+      <div class="row">
+        <% if (projects.length === 0) { %>
+          <div class="col-md-12 text-center">
+            <p>No projects to display yet.</p>
+          </div>
+        <% } else { %>
+          <% projects.forEach(project => { %>
+            <div class="col-md-4 mb-4">
+              <div class="project-card card h-100">
+                <img src="<%= project.thumbnailUrl %>" class="card-img-top" alt="<%= project.title %>">
+                <div class="project-overlay">
+                  <h5 class="project-title"><%= project.title %></h5>
+                  <p class="project-category"><%= project.category %></p>
+                  <button class="btn btn-custom btn-sm project-btn" data-bs-toggle="modal" data-bs-target="#projectModal<%= project._id %>">
+                    Watch Video
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Project Modal -->
+            <div class="modal fade" id="projectModal<%= project._id %>" tabindex="-1" aria-labelledby="projectModalLabel<%= project._id %>" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="projectModalLabel<%= project._id %>"><%= project.title %></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="ratio ratio-16x9 mb-3">
+                      <video controls>
+                        <source src="<%= project.videoUrl %>" type="video/mp4">
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                    <h6>Description:</h6>
+                    <p><%= project.description %></p>
+                    <% if (project.tags && project.tags.length > 0) { %>
+                      <div class="mt-3">
+                        <% project.tags.forEach(tag => { %>
+                          <span class="badge bg-secondary me-1"><%= tag %></span>
+                        <% }) %>
+                      </div>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section-padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center mb-5">
+          <h2 class="section-title">Get In Touch</h2>
+          <p class="lead">Interested in working together? Let's talk about your project.</p>
+        </div>
+      </div>
+      
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-body p-5">
+              <div class="row">
+                <div class="col-md-6 mb-4 mb-md-0">
+                  <h4 class="mb-4">Contact Information</h4>
+                  <% if (portfolio.contact.email) { %>
+                    <p class="mb-3">
+                      <i class="fas fa-envelope me-2 text-primary"></i> <%= portfolio.contact.email %>
+                    </p>
+                  <% } %>
+                  
+                  <% if (portfolio.contact.phone) { %>
+                    <p class="mb-3">
+                      <i class="fas fa-phone me-2 text-primary"></i> <%= portfolio.contact.phone %>
+                    </p>
+                  <% } %>
+                  
+                  <div class="social-links mt-4">
+                    <% if (portfolio.social.twitter) { %>
+                      <a href="<%= portfolio.social.twitter %>" target="_blank" class="social-icon">
+                        <i class="fab fa-twitter"></i>
+                      </a>
+                    <% } %>
+                    
+                    <% if (portfolio.social.instagram) { %>
+                      <a href="<%= portfolio.social.instagram %>" target="_blank" class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                      </a>
+                    <% } %>
+                    
+                    <% if (portfolio.social.linkedin) { %>
+                      <a href="<%= portfolio.social.linkedin %>" target="_blank" class="social-icon">
+                        <i class="fab fa-linkedin-in"></i>
+                      </a>
+                    <% } %>
+                    
+                    <% if (portfolio.social.youtube) { %>
+                      <a href="<%= portfolio.social.youtube %>" target="_blank" class="social-icon">
+                        <i class="fab fa-youtube"></i>
+                      </a>
+                    <% } %>
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <h4 class="mb-4">Send a Message</h4>
+                  <form>
+                    <div class="mb-3">
+                      <input type="text" class="form-control" placeholder="Your Name" required>
+                    </div>
+                    <div class="mb-3">
+                      <input type="email" class="form-control" placeholder="Your Email" required>
+                    </div>
+                    <div class="mb-3">
+                      <textarea class="form-control" rows="4" placeholder="Your Message" required></textarea>
+                    </div>
+                    <div class="d-grid">
+                      <button type="submit" class="btn btn-custom">Send Message</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h3 class="mb-4"><%= portfolio.title %></h3>
+          <p>Video Editor & Visual Storyteller</p>
+          
+          <div class="social-links my-4">
+            <% if (portfolio.social.twitter) { %>
+              <a href="<%= portfolio.social.twitter %>" target="_blank" class="social-icon">
+                <i class="fab fa-twitter"></i>
+              </a>
+            <% } %>
+            
+            <% if (portfolio.social.instagram) { %>
+              <a href="<%= portfolio.social.instagram %>" target="_blank" class="social-icon">
+                <i class="fab fa-instagram"></i>
+              </a>
+            <% } %>
+            
+            <% if (portfolio.social.linkedin) { %>
+              <a href="<%= portfolio.social.linkedin %>" target="_blank" class="social-icon">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            <% } %>
+            
+            <% if (portfolio.social.youtube) { %>
+              <a href="<%= portfolio.social.youtube %>" target="_blank" class="social-icon">
+                <i class="fab fa-youtube"></i>
+              </a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <p>&copy; <%= new Date().getFullYear() %> <%= portfolio.title %>. All Rights Reserved.</p>
+            <p class="small">Created with VideoFolio</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Change navbar background on scroll
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+  </script>
+</body>
+</html>

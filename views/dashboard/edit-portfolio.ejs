@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Portfolio | VideoFolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/">VideoFolio</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/logout">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <% if(success_msg != ''){ %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= success_msg %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% } %>
+
+    <% if(error_msg != ''){ %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%= error_msg %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% } %>
+
+    <% if(error != ''){ %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% } %>
+
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <div class="card">
+          <div class="card-body">
+            <h1 class="card-title text-center mb-4">Edit Portfolio</h1>
+            <form action="/dashboard/edit-portfolio?_method=PUT" method="POST">
+              <div class="mb-3">
+                <label for="title" class="form-label">Portfolio Title</label>
+                <input type="text" class="form-control" id="title" name="title" value="<%= portfolio.title %>" required>
+              </div>
+              
+              <div class="mb-3">
+                <label for="template" class="form-label">Template</label>
+                <select class="form-select" id="template" name="template" required>
+                  <option value="modern-dark" <%= portfolio.template === 'modern-dark' ? 'selected' : '' %>>Modern Dark</option>
+                  <option value="minimalist" <%= portfolio.template === 'minimalist' ? 'selected' : '' %>>Minimalist</option>
+                  <option value="creative" <%= portfolio.template === 'creative' ? 'selected' : '' %>>Creative</option>
+                </select>
+              </div>
+              
+              <div class="mb-3">
+                <label for="colorScheme" class="form-label">Color Scheme</label>
+                <select class="form-select" id="colorScheme" name="colorScheme" required>
+                  <option value="dark" <%= portfolio.colorScheme === 'dark' ? 'selected' : '' %>>Dark</option>
+                  <option value="light" <%= portfolio.colorScheme === 'light' ? 'selected' : '' %>>Light</option>
+                  <option value="blue" <%= portfolio.colorScheme === 'blue' ? 'selected' : '' %>>Blue</option>
+                  <option value="green" <%= portfolio.colorScheme === 'green' ? 'selected' : '' %>>Green</option>
+                  <option value="purple" <%= portfolio.colorScheme === 'purple' ? 'selected' : '' %>>Purple</option>
+                </select>
+              </div>
+              
+              <div class="mb-3">
+                <label for="about" class="form-label">About</label>
+                <textarea class="form-control" id="about" name="about" rows="5"><%= portfolio.about %></textarea>
+              </div>
+              
+              <div class="mb-3">
+                <label for="skills" class="form-label">Skills (comma separated)</label>
+                <input type="text" class="form-control" id="skills" name="skills" value="<%= portfolio.skills.join(', ') %>">
+              </div>
+              
+              <h4 class="mt-4">Social Media</h4>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="twitter" class="form-label">Twitter</label>
+                  <input type="text" class="form-control" id="twitter" name="twitter" value="<%= portfolio.social.twitter || '' %>">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="instagram" class="form-label">Instagram</label>
+                  <input type="text" class="form-control" id="instagram" name="instagram" value="<%= portfolio.social.instagram || '' %>">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="linkedin" class="form-label">LinkedIn</label>
+                  <input type="text" class="form-control" id="linkedin" name="linkedin" value="<%= portfolio.social.linkedin || '' %>">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="youtube" class="form-label">YouTube</label>
+                  <input type="text" class="form-control" id="youtube" name="youtube" value="<%= portfolio.social.youtube || '' %>">
+                </div>
+              </div>
+              
+              <h4 class="mt-4">Contact Information</h4>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="email" name="email" value="<%= portfolio.contact.email || '' %>">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="phone" class="form-label">Phone</label>
+                  <input type="text" class="form-control" id="phone" name="phone" value="<%= portfolio.contact.phone || '' %>">
+                </div>
+              </div>
+              
+              <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="/dashboard" class="btn btn-secondary">Cancel</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>

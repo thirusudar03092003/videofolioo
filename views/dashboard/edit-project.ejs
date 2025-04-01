@@ -1,0 +1,58 @@
+<%- include('../layouts/main', { title: 'Edit Project' }) %>
+
+<div class="row">
+  <div class="col-md-8 mx-auto">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title text-center mb-4">Edit Project</h1>
+        <form action="/projects/edit/<%= project._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="title" class="form-label">Project Title</label>
+            <input type="text" class="form-control" id="title" name="title" value="<%= project.title %>" required>
+          </div>
+          
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="4" required><%= project.description %></textarea>
+          </div>
+          
+          <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select class="form-select" id="category" name="category" required>
+              <option value="Commercial" <%= project.category === 'Commercial' ? 'selected' : '' %>>Commercial</option>
+              <option value="Music Video" <%= project.category === 'Music Video' ? 'selected' : '' %>>Music Video</option>
+              <option value="Short Film" <%= project.category === 'Short Film' ? 'selected' : '' %>>Short Film</option>
+              <option value="Documentary" <%= project.category === 'Documentary' ? 'selected' : '' %>>Documentary</option>
+              <option value="Animation" <%= project.category === 'Animation' ? 'selected' : '' %>>Animation</option>
+              <option value="Motion Graphics" <%= project.category === 'Motion Graphics' ? 'selected' : '' %>>Motion Graphics</option>
+              <option value="Other" <%= project.category === 'Other' ? 'selected' : '' %>>Other</option>
+            </select>
+          </div>
+          
+          <div class="mb-3">
+            <label for="tags" class="form-label">Tags (comma separated)</label>
+            <input type="text" class="form-control" id="tags" name="tags" value="<%= tags %>">
+          </div>
+          
+          <div class="mb-3">
+            <label for="video" class="form-label">Video File (Leave empty to keep current video)</label>
+            <input class="form-control" type="file" id="video" name="video" accept="video/*">
+            <div class="form-text">Current video: <%= project.videoUrl.split('/').pop() %></div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="thumbnail" class="form-label">Thumbnail Image (Leave empty to keep current thumbnail)</label>
+            <input class="form-control" type="file" id="thumbnail" name="thumbnail" accept="image/*">
+            <div class="form-text">Current thumbnail:</div>
+            <img src="<%= project.thumbnailUrl %>" alt="Current thumbnail" class="img-thumbnail mt-2" style="max-height: 150px;">
+          </div>
+          
+          <div class="d-grid gap-2 mt-4">
+            <button type="submit" class="btn btn-primary">Update Project</button>
+            <a href="/dashboard" class="btn btn-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
